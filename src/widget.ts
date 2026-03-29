@@ -64,6 +64,7 @@ export class TeraFeedbackWidget {
           bus.emit('author:request')
           return // 이름 입력 전까지 toggle 안 함
         }
+        this.fetchPageComments() // ON 시 최신 데이터 로드
       }
       this.active = !this.active
       if (!this.active) {
@@ -74,6 +75,7 @@ export class TeraFeedbackWidget {
     bus.on('author:confirmed', () => {
       // 이름 입력 완료 → 리뷰 모드 ON
       this.active = true
+      this.fetchPageComments() // 핀 데이터 다시 로드
       bus.emit('toggle:force')
     })
 
