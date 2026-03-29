@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TeraFeedback Widget - Dev Test</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8fafc; color: #1e293b; }
+    .header { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 20px 40px; }
+    .header h1 { font-size: 24px; font-weight: 700; }
+    .header p { font-size: 14px; color: #64748b; margin-top: 4px; }
+    .content { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+    .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 30px; margin-bottom: 24px; }
+    .card h2 { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+    .card p { font-size: 14px; color: #475569; line-height: 1.7; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 24px; }
+    .grid-item { background: #f1f5f9; border-radius: 8px; padding: 20px; text-align: center; }
+    .grid-item h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .grid-item .number { font-size: 36px; font-weight: 700; color: #0284c7; }
+    .footer { text-align: center; padding: 40px; color: #94a3b8; font-size: 13px; }
+    .btn { display: inline-block; padding: 10px 24px; background: #0284c7; color: #fff; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; }
+    .btn:hover { background: #0369a1; }
+    .hero { background: linear-gradient(135deg, #0284c7, #7c3aed); color: #fff; padding: 60px 40px; text-align: center; }
+    .hero h2 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+    .hero p { font-size: 16px; opacity: 0.9; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Sample Website</h1>
+    <p>TeraFeedback Widget 테스트 페이지 — 우하단 "리뷰 모드" 버튼을 클릭하세요</p>
+  </div>
+
+  <div class="hero">
+    <h2>Welcome to Our Platform</h2>
+    <p>이 영역 아무 곳이나 클릭하여 리뷰 핀을 남길 수 있습니다</p>
+  </div>
+
+  <div class="content">
+    <div class="card">
+      <h2>프로젝트 개요</h2>
+      <p>이 페이지는 TeraFeedback 위젯의 동작을 테스트하기 위한 샘플입니다. 리뷰 모드를 켜면 화면 어디든 클릭하여 핀을 남기고, 코멘트를 작성할 수 있습니다. 이미지를 드래그 앤 드롭하여 첨부할 수도 있습니다.</p>
+    </div>
+
+    <div class="grid">
+      <div class="grid-item">
+        <h3>활성 프로젝트</h3>
+        <div class="number">12</div>
+      </div>
+      <div class="grid-item">
+        <h3>피드백 수집</h3>
+        <div class="number">48</div>
+      </div>
+      <div class="grid-item">
+        <h3>반영 완료</h3>
+        <div class="number">35</div>
+      </div>
+      <div class="grid-item">
+        <h3>미처리</h3>
+        <div class="number">13</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>사용 방법</h2>
+      <p>1. 우하단의 "리뷰 모드" 버튼을 클릭합니다<br>
+         2. 피드백을 남기고 싶은 위치를 클릭합니다<br>
+         3. 이름과 코멘트를 입력합니다 (이미지 드래그앤드롭 가능)<br>
+         4. Ctrl+Enter 또는 등록 버튼으로 제출합니다<br>
+         5. "피드백 목록"에서 전체 피드백을 확인합니다</p>
+    </div>
+
+    <div class="card" style="text-align: center;">
+      <h2>CTA Section</h2>
+      <p style="margin-bottom: 16px;">버튼이나 특정 UI 요소에 대한 피드백도 남길 수 있습니다</p>
+      <button class="btn">시작하기</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    &copy; 2024 TeraFeedback Widget Test Page
+  </div>
+
+  <!-- TeraFeedback Widget -->
+  <script type="module" src="/src/index.ts"
+    data-project="test-project"
+    data-supabase-url="https://kixxlhrosxbcwdeofmgg.supabase.co"
+    data-supabase-key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtpeHhsaHJvc3hiY3dkZW9mbWdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1NTI1NDksImV4cCI6MjA5MDEyODU0OX0._XkejZIIt_6XtNMkIo9SjtsLw6ikq5TDTuQd0-YbjxQ">
+  </script>
+</body>
+</html>
