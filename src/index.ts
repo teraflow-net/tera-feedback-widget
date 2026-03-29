@@ -8,9 +8,10 @@ declare global {
 }
 
 function init() {
-  // Find the script tag
+  // Find the script tag — try multiple methods
   const script = document.currentScript as HTMLScriptElement
     || document.querySelector('script[data-project]')
+    || document.querySelector('script[src*="feedback-widget"]')
 
   if (!script) {
     console.error('[TeraFeedback] script tag with data-project not found')
@@ -27,15 +28,12 @@ function init() {
   }
 
   const config: WidgetConfig = { projectId, supabaseUrl, supabaseKey }
-
-  // Wait for DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      window.TeraFeedback = new TeraFeedbackWidget(config)
-    })
-  } else {
-    window.TeraFeedback = new TeraFeedbackWidget(config)
-  }
+  window.TeraFeedback = new TeraFeedbackWidget(config)
 }
 
-init()
+// Support both sync and defer/async loading
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init)
+} else {
+  init()
+}
