@@ -265,7 +265,12 @@ export class CommentPopover {
     // Delete
     this.el.querySelector('[data-action="delete"]')?.addEventListener('click', async () => {
       const supabase = getSupabase()
-      await supabase.from('review_comments').delete().eq('id', comment.id)
+      const { error } = await supabase.from('review_comments').delete().eq('id', comment.id)
+      if (error) {
+        console.error('[TeraFeedback] Delete failed:', error)
+        alert('삭제에 실패했습니다. Supabase RLS 정책을 확인하세요.')
+        return
+      }
       this.close()
       bus.emit('pin:created')
     })
