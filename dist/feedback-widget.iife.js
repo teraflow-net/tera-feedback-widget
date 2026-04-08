@@ -458,12 +458,37 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
 .tr-popover__action--resolve:hover { background: #d1fae5; }
 .tr-popover__action--reopen { background: #fff7ed; color: #ea580c; }
 .tr-popover__action--reopen:hover { background: #ffedd5; }
-.tr-popover__action--delete {
+.tr-popover__action--edit {
   margin-left: auto;
   background: none;
   color: #cbd5e1;
 }
-.tr-popover__action--delete:hover { background: #fef2f2; color: #ef4444; }
+.tr-popover__action--edit:hover { background: #eff6ff; color: #2563eb; }
+.tr-popover__edit-form { margin-bottom: 10px; }
+.tr-popover__edit-textarea {
+  width: 100%;
+  font-size: 13px;
+  padding: 9px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+  font-family: inherit;
+  resize: none;
+  background: #f8fafc;
+  color: #0f172a;
+  transition: all 0.15s;
+}
+.tr-popover__edit-textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  background: #fff;
+}
+.tr-popover__edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 8px;
+}
 
 /* ===== Review Panel (Sidebar) ===== */
 .tr-panel {
@@ -829,8 +854,8 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
         `,d.querySelector(`[data-action="remove-image"]`)?.addEventListener(`click`,()=>{a=null,o=null,d.style.display=`none`,d.innerHTML=``,u.value=``})},t.readAsDataURL(e)};l.addEventListener(`click`,()=>u.click()),u.addEventListener(`change`,()=>{let e=u.files?.[0];e&&p(e)}),this.el.addEventListener(`keydown`,e=>{e.key===`Enter`&&(e.metaKey||e.ctrlKey)&&(e.preventDefault(),c.click()),e.key===`Escape`&&this.close()}),c.addEventListener(`click`,async()=>{let e=s.value.trim();if(!e)return;let t=i;c.disabled=!0,c.innerHTML=`
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>
         등록 중...
-      `;let o=null;a&&(o=await this.uploadImage(a));let l=Q(),u={project_id:this.projectId,page_url:window.location.pathname+window.location.search,x_percent:n,y_percent:r,content:e,author_name:t,image_url:o},{error:d}=await l.from(`review_comments`).insert({...u,meta_viewport:mi(),meta_browser:hi(),meta_os:gi()});d&&await l.from(`review_comments`).insert(u),this.close(),$.emit(`pin:created`)}),this.root.appendChild(this.backdrop),this.root.appendChild(this.el)}showExisting(e){this.close();let t=e.x_percent/100*window.innerWidth,n=e.y_percent/100*window.innerHeight;this.backdrop=document.createElement(`div`),this.backdrop.className=`tr-popover-backdrop`,this.backdrop.addEventListener(`click`,()=>this.close()),this.el=document.createElement(`div`),this.el.className=`tr-popover`,this.el.style.left=`${Math.min(t+12,window.innerWidth-340)}px`,this.el.style.top=`${Math.min(n-10,window.innerHeight-420)}px`;let r=`tr-popover__status--${e.status}`,i={open:`미처리`,in_progress:`진행중`,resolved:`완료`}[e.status],a=new Date(e.created_at).toLocaleDateString(`ko-KR`),o=``;e.status===`open`&&(o+=`<button class="tr-popover__action tr-popover__action--progress" data-status="in_progress">진행중</button>`),(e.status===`open`||e.status===`in_progress`)&&(o+=`<button class="tr-popover__action tr-popover__action--resolve" data-status="resolved">&#10003; 완료</button>`),e.status===`resolved`&&(o+=`<button class="tr-popover__action tr-popover__action--reopen" data-status="open">다시 열기</button>`),o+=`<button class="tr-popover__action tr-popover__action--delete" data-action="delete">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+      `;let o=null;a&&(o=await this.uploadImage(a));let l=Q(),u={project_id:this.projectId,page_url:window.location.pathname+window.location.search,x_percent:n,y_percent:r,content:e,author_name:t,image_url:o},{error:d}=await l.from(`review_comments`).insert({...u,meta_viewport:mi(),meta_browser:hi(),meta_os:gi()});d&&await l.from(`review_comments`).insert(u),this.close(),$.emit(`pin:created`)}),this.root.appendChild(this.backdrop),this.root.appendChild(this.el)}showExisting(e){this.close();let t=e.x_percent/100*window.innerWidth,n=e.y_percent/100*window.innerHeight;this.backdrop=document.createElement(`div`),this.backdrop.className=`tr-popover-backdrop`,this.backdrop.addEventListener(`click`,()=>this.close()),this.el=document.createElement(`div`),this.el.className=`tr-popover`,this.el.style.left=`${Math.min(t+12,window.innerWidth-340)}px`,this.el.style.top=`${Math.min(n-10,window.innerHeight-420)}px`;let r=`tr-popover__status--${e.status}`,i={open:`미처리`,in_progress:`진행중`,resolved:`완료`}[e.status],a=new Date(e.created_at).toLocaleDateString(`ko-KR`),o=``;e.status===`open`&&(o+=`<button class="tr-popover__action tr-popover__action--progress" data-status="in_progress">진행중</button>`),(e.status===`open`||e.status===`in_progress`)&&(o+=`<button class="tr-popover__action tr-popover__action--resolve" data-status="resolved">&#10003; 완료</button>`),e.status===`resolved`&&(o+=`<button class="tr-popover__action tr-popover__action--reopen" data-status="open">다시 열기</button>`),o+=`<button class="tr-popover__action tr-popover__action--edit" data-action="edit">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
     </button>`,this.el.innerHTML=`
       <div class="tr-popover__body">
         <div class="tr-popover__header">
@@ -841,6 +866,14 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
           <span class="tr-popover__date">${a}</span>
         </div>
         <p class="tr-popover__content">${this.escapeHtml(e.content)}</p>
+        <!-- Edit form (hidden by default) -->
+        <div class="tr-popover__edit-form" style="display:none">
+          <textarea class="tr-popover__edit-textarea" rows="3">${this.escapeHtml(e.content)}</textarea>
+          <div class="tr-popover__edit-actions">
+            <button class="tr-popover__action tr-popover__edit-cancel">취소</button>
+            <button class="tr-popover__submit tr-popover__edit-save">저장</button>
+          </div>
+        </div>
         ${e.image_url?`
           <div class="tr-popover__img-wrap">
             <img class="tr-popover__image" src="${this.escapeHtml(e.image_url)}" alt="첨부 이미지" data-action="open-image">
@@ -856,7 +889,7 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
         `:``}
         <div class="tr-popover__actions">${o}</div>
       </div>
-    `,this.el.querySelectorAll(`[data-status]`).forEach(t=>{t.addEventListener(`click`,async()=>{let n=t.dataset.status;await Q().from(`review_comments`).update({status:n,resolved_at:n===`resolved`?new Date().toISOString():null}).eq(`id`,e.id),this.close(),$.emit(`pin:created`)})}),this.el.querySelector(`[data-action="delete"]`)?.addEventListener(`click`,async()=>{let{error:t}=await Q().from(`review_comments`).delete().eq(`id`,e.id);if(t){console.error(`[TeraFeedback] Delete failed:`,t),alert(`삭제에 실패했습니다. Supabase RLS 정책을 확인하세요.`);return}this.close(),$.emit(`pin:created`)}),this.el.querySelectorAll(`[data-action="open-image"]`).forEach(t=>{t.addEventListener(`click`,()=>window.open(e.image_url,`_blank`))}),this.el.querySelector(`[data-action="download-image"]`)?.addEventListener(`click`,async()=>{try{let t=await(await fetch(e.image_url)).blob(),n=URL.createObjectURL(t),r=document.createElement(`a`);r.href=n,r.download=`feedback-${e.id.slice(0,8)}.${e.image_url.split(`.`).pop()||`png`}`,r.click(),URL.revokeObjectURL(n)}catch{window.open(e.image_url,`_blank`)}}),this.el.addEventListener(`keydown`,e=>{e.key===`Escape`&&this.close()}),this.root.appendChild(this.backdrop),this.root.appendChild(this.el)}async uploadImage(e){let t=e.name.split(`.`).pop()||`png`,n=`${Date.now()}-${Math.random().toString(36).slice(2)}.${t}`,r=Q(),{error:i}=await r.storage.from(`review-images`).upload(n,e);if(i)return console.error(`Image upload failed:`,i),null;let{data:a}=r.storage.from(`review-images`).getPublicUrl(n);return a.publicUrl}close(){this.backdrop?.remove(),this.el?.remove(),this.backdrop=null,this.el=null,$.emit(`popover:closed`)}escapeHtml(e){let t=document.createElement(`div`);return t.textContent=e,t.innerHTML}destroy(){this.close()}},vi=class{constructor(e,t){this.root=e,this.projectId=t,this.tab=`open`,this.allComments=[],this.isOpen=!1,this.channel=null,this.el=document.createElement(`div`),this.el.className=`tr-panel`,e.appendChild(this.el),$.on(`panel:toggle`,()=>{this.isOpen=!this.isOpen,this.isOpen?this.open():this.close()}),$.on(`toggle`,()=>{this.isOpen&&(this.isOpen=!1,this.el.classList.remove(`tr-panel--open`),this.unsubscribe())}),this.render()}async fetchAll(){let{data:e}=await Q().from(`review_comments`).select(`*`).eq(`project_id`,this.projectId).order(`created_at`,{ascending:!1});e&&(this.allComments=e,this.render())}subscribe(){this.unsubscribe(),this.channel=Q().channel(`review_panel_rt`).on(`postgres_changes`,{event:`*`,schema:`public`,table:`review_comments`,filter:`project_id=eq.${this.projectId}`},()=>this.fetchAll()).subscribe()}unsubscribe(){this.channel&&=(Q().removeChannel(this.channel),null)}open(){this.isOpen=!0,this.el.classList.add(`tr-panel--open`),this.fetchAll(),this.subscribe()}close(){this.isOpen=!1,this.el.classList.remove(`tr-panel--open`),this.unsubscribe()}render(){let e=this.allComments.filter(e=>e.status!==`resolved`).length,t=this.allComments.filter(e=>e.status===`resolved`).length,n=this.allComments.filter(e=>this.tab===`open`?e.status!==`resolved`:e.status===`resolved`),r={};n.forEach(e=>{r[e.page_url]||(r[e.page_url]=[]),r[e.page_url].push(e)});let i=e=>({open:{html:`●`,cls:`tr-panel__item-icon--open`},in_progress:{html:`◐`,cls:`tr-panel__item-icon--in_progress`},resolved:{html:`✓`,cls:`tr-panel__item-icon--resolved`}})[e],a=``;if(Object.keys(r).length===0)a=`<div class="tr-panel__empty">${this.tab===`open`?`처리할 피드백이 없습니다`:`완료된 피드백이 없습니다`}</div>`;else for(let[e,t]of Object.entries(r))a+=`
+    `,this.el.querySelectorAll(`[data-status]`).forEach(t=>{t.addEventListener(`click`,async()=>{let n=t.dataset.status;await Q().from(`review_comments`).update({status:n,resolved_at:n===`resolved`?new Date().toISOString():null}).eq(`id`,e.id),this.close(),$.emit(`pin:created`)})}),this.el.querySelector(`[data-action="edit"]`)?.addEventListener(`click`,()=>{let e=this.el.querySelector(`.tr-popover__content`),t=this.el.querySelector(`.tr-popover__edit-form`),n=this.el.querySelector(`.tr-popover__actions`);e.style.display=`none`,n.style.display=`none`,t.style.display=`block`,t.querySelector(`textarea`).focus()}),this.el.querySelector(`.tr-popover__edit-cancel`)?.addEventListener(`click`,()=>{let e=this.el.querySelector(`.tr-popover__content`),t=this.el.querySelector(`.tr-popover__edit-form`),n=this.el.querySelector(`.tr-popover__actions`);e.style.display=``,n.style.display=``,t.style.display=`none`}),this.el.querySelector(`.tr-popover__edit-save`)?.addEventListener(`click`,async()=>{let t=this.el.querySelector(`.tr-popover__edit-textarea`).value.trim();t&&(await Q().from(`review_comments`).update({content:t}).eq(`id`,e.id),this.close(),$.emit(`pin:created`))}),this.el.querySelectorAll(`[data-action="open-image"]`).forEach(t=>{t.addEventListener(`click`,()=>window.open(e.image_url,`_blank`))}),this.el.querySelector(`[data-action="download-image"]`)?.addEventListener(`click`,async()=>{try{let t=await(await fetch(e.image_url)).blob(),n=URL.createObjectURL(t),r=document.createElement(`a`);r.href=n,r.download=`feedback-${e.id.slice(0,8)}.${e.image_url.split(`.`).pop()||`png`}`,r.click(),URL.revokeObjectURL(n)}catch{window.open(e.image_url,`_blank`)}}),this.el.addEventListener(`keydown`,e=>{e.key===`Escape`&&this.close()}),this.root.appendChild(this.backdrop),this.root.appendChild(this.el)}async uploadImage(e){let t=e.name.split(`.`).pop()||`png`,n=`${Date.now()}-${Math.random().toString(36).slice(2)}.${t}`,r=Q(),{error:i}=await r.storage.from(`review-images`).upload(n,e);if(i)return console.error(`Image upload failed:`,i),null;let{data:a}=r.storage.from(`review-images`).getPublicUrl(n);return a.publicUrl}close(){this.backdrop?.remove(),this.el?.remove(),this.backdrop=null,this.el=null,$.emit(`popover:closed`)}escapeHtml(e){let t=document.createElement(`div`);return t.textContent=e,t.innerHTML}destroy(){this.close()}},vi=class{constructor(e,t){this.root=e,this.projectId=t,this.tab=`open`,this.allComments=[],this.isOpen=!1,this.channel=null,this.el=document.createElement(`div`),this.el.className=`tr-panel`,e.appendChild(this.el),$.on(`panel:toggle`,()=>{this.isOpen=!this.isOpen,this.isOpen?this.open():this.close()}),$.on(`toggle`,()=>{this.isOpen&&(this.isOpen=!1,this.el.classList.remove(`tr-panel--open`),this.unsubscribe())}),this.render()}async fetchAll(){let{data:e}=await Q().from(`review_comments`).select(`*`).eq(`project_id`,this.projectId).order(`created_at`,{ascending:!1});e&&(this.allComments=e,this.render())}subscribe(){this.unsubscribe(),this.channel=Q().channel(`review_panel_rt`).on(`postgres_changes`,{event:`*`,schema:`public`,table:`review_comments`,filter:`project_id=eq.${this.projectId}`},()=>this.fetchAll()).subscribe()}unsubscribe(){this.channel&&=(Q().removeChannel(this.channel),null)}open(){this.isOpen=!0,this.el.classList.add(`tr-panel--open`),this.fetchAll(),this.subscribe()}close(){this.isOpen=!1,this.el.classList.remove(`tr-panel--open`),this.unsubscribe()}render(){let e=this.allComments.filter(e=>e.status!==`resolved`).length,t=this.allComments.filter(e=>e.status===`resolved`).length,n=this.allComments.filter(e=>this.tab===`open`?e.status!==`resolved`:e.status===`resolved`),r={};n.forEach(e=>{r[e.page_url]||(r[e.page_url]=[]),r[e.page_url].push(e)});let i=e=>({open:{html:`●`,cls:`tr-panel__item-icon--open`},in_progress:{html:`◐`,cls:`tr-panel__item-icon--in_progress`},resolved:{html:`✓`,cls:`tr-panel__item-icon--resolved`}})[e],a=``;if(Object.keys(r).length===0)a=`<div class="tr-panel__empty">${this.tab===`open`?`처리할 피드백이 없습니다`:`완료된 피드백이 없습니다`}</div>`;else for(let[e,t]of Object.entries(r))a+=`
           <div class="tr-panel__group-header">
             <span class="tr-panel__group-icon">📄</span>
             <span class="tr-panel__group-label">${this.escapeHtml(e)}</span>

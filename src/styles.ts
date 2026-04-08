@@ -435,12 +435,37 @@ export const WIDGET_CSS = `
 .tr-popover__action--resolve:hover { background: #d1fae5; }
 .tr-popover__action--reopen { background: #fff7ed; color: #ea580c; }
 .tr-popover__action--reopen:hover { background: #ffedd5; }
-.tr-popover__action--delete {
+.tr-popover__action--edit {
   margin-left: auto;
   background: none;
   color: #cbd5e1;
 }
-.tr-popover__action--delete:hover { background: #fef2f2; color: #ef4444; }
+.tr-popover__action--edit:hover { background: #eff6ff; color: #2563eb; }
+.tr-popover__edit-form { margin-bottom: 10px; }
+.tr-popover__edit-textarea {
+  width: 100%;
+  font-size: 13px;
+  padding: 9px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+  font-family: inherit;
+  resize: none;
+  background: #f8fafc;
+  color: #0f172a;
+  transition: all 0.15s;
+}
+.tr-popover__edit-textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  background: #fff;
+}
+.tr-popover__edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 8px;
+}
 
 /* ===== Review Panel (Sidebar) ===== */
 .tr-panel {

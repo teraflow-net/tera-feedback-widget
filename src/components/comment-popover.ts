@@ -217,8 +217,8 @@ export class CommentPopover {
     if (comment.status === 'resolved') {
       actionsHtml += `<button class="tr-popover__action tr-popover__action--reopen" data-status="open">다시 열기</button>`
     }
-    actionsHtml += `<button class="tr-popover__action tr-popover__action--delete" data-action="delete">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+    actionsHtml += `<button class="tr-popover__action tr-popover__action--edit" data-action="edit">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
     </button>`
 
     this.el.innerHTML = `
@@ -231,6 +231,14 @@ export class CommentPopover {
           <span class="tr-popover__date">${dateStr}</span>
         </div>
         <p class="tr-popover__content">${this.escapeHtml(comment.content)}</p>
+        <!-- Edit form (hidden by default) -->
+        <div class="tr-popover__edit-form" style="display:none">
+          <textarea class="tr-popover__edit-textarea" rows="3">${this.escapeHtml(comment.content)}</textarea>
+          <div class="tr-popover__edit-actions">
+            <button class="tr-popover__action tr-popover__edit-cancel">취소</button>
+            <button class="tr-popover__submit tr-popover__edit-save">저장</button>
+          </div>
+        </div>
         ${comment.image_url ? `
           <div class="tr-popover__img-wrap">
             <img class="tr-popover__image" src="${this.escapeHtml(comment.image_url)}" alt="첨부 이미지" data-action="open-image">
@@ -262,15 +270,35 @@ export class CommentPopover {
       })
     })
 
-    // Delete
-    this.el.querySelector('[data-action="delete"]')?.addEventListener('click', async () => {
+    // Edit
+    this.el.querySelector('[data-action="edit"]')?.addEventListener('click', () => {
+      const contentEl = this.el!.querySelector('.tr-popover__content') as HTMLElement
+      const editForm = this.el!.querySelector('.tr-popover__edit-form') as HTMLElement
+      const actionsEl = this.el!.querySelector('.tr-popover__actions') as HTMLElement
+      contentEl.style.display = 'none'
+      actionsEl.style.display = 'none'
+      editForm.style.display = 'block'
+      const textarea = editForm.querySelector('textarea') as HTMLTextAreaElement
+      textarea.focus()
+    })
+
+    // Edit cancel
+    this.el.querySelector('.tr-popover__edit-cancel')?.addEventListener('click', () => {
+      const contentEl = this.el!.querySelector('.tr-popover__content') as HTMLElement
+      const editForm = this.el!.querySelector('.tr-popover__edit-form') as HTMLElement
+      const actionsEl = this.el!.querySelector('.tr-popover__actions') as HTMLElement
+      contentEl.style.display = ''
+      actionsEl.style.display = ''
+      editForm.style.display = 'none'
+    })
+
+    // Edit save
+    this.el.querySelector('.tr-popover__edit-save')?.addEventListener('click', async () => {
+      const textarea = this.el!.querySelector('.tr-popover__edit-textarea') as HTMLTextAreaElement
+      const newContent = textarea.value.trim()
+      if (!newContent) return
       const supabase = getSupabase()
-      const { error } = await supabase.from('review_comments').delete().eq('id', comment.id)
-      if (error) {
-        console.error('[TeraFeedback] Delete failed:', error)
-        alert('삭제에 실패했습니다. Supabase RLS 정책을 확인하세요.')
-        return
-      }
+      await supabase.from('review_comments').update({ content: newContent }).eq('id', comment.id)
       this.close()
       bus.emit('pin:created')
     })
