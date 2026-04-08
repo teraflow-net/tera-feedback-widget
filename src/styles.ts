@@ -20,7 +20,7 @@ export const WIDGET_CSS = `
 .tr-toggle {
   position: fixed;
   bottom: 24px;
-  right: 24px;
+  left: 24px;
   z-index: 9999;
   display: flex;
   align-items: center;
