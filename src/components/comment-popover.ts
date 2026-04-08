@@ -289,7 +289,7 @@ export class CommentPopover {
       bus.emit('pin:created')
     })
 
-    // Status buttons
+    // Status buttons — update all comments at same position (thread)
     this.el.querySelectorAll('[data-status]').forEach(btn => {
       btn.addEventListener('click', async () => {
         const status = (btn as HTMLElement).dataset.status as ReviewComment['status']
@@ -297,7 +297,11 @@ export class CommentPopover {
         await supabase.from('review_comments').update({
           status,
           resolved_at: status === 'resolved' ? new Date().toISOString() : null,
-        }).eq('id', comment.id)
+        })
+          .eq('project_id', this.projectId)
+          .eq('page_url', comment.page_url)
+          .eq('x_percent', comment.x_percent)
+          .eq('y_percent', comment.y_percent)
         this.close()
         bus.emit('pin:created')
       })
