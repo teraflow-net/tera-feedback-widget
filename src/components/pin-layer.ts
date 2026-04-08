@@ -107,21 +107,32 @@ export class PinLayer {
     this.el.querySelectorAll('[data-pin]').forEach(p => p.remove())
     this.el.querySelectorAll('.tr-pin--new').forEach(p => p.remove())
 
-    // Render pins
+    // Group comments by position (same pin = same thread)
     const visible = this.showResolved
       ? this.comments
       : this.comments.filter(c => c.status !== 'resolved')
 
-    visible.forEach((comment, i) => {
+    const groups = new Map<string, ReviewComment[]>()
+    visible.forEach(c => {
+      const key = `${c.x_percent}_${c.y_percent}`
+      if (!groups.has(key)) groups.set(key, [])
+      groups.get(key)!.push(c)
+    })
+
+    let pinIndex = 0
+    groups.forEach((thread) => {
+      // Use the first (oldest) comment as the main pin
+      const main = thread[0]
+      pinIndex++
       const pin = document.createElement('button')
-      pin.setAttribute('data-pin', comment.id)
-      pin.className = `tr-pin ${PIN_COLORS[comment.status]}`
-      pin.style.left = `${comment.x_percent}%`
-      pin.style.top = `${comment.y_percent}%`
-      pin.textContent = String(i + 1)
+      pin.setAttribute('data-pin', main.id)
+      pin.className = `tr-pin ${PIN_COLORS[main.status]}`
+      pin.style.left = `${main.x_percent}%`
+      pin.style.top = `${main.y_percent}%`
+      pin.textContent = thread.length > 1 ? String(thread.length) : String(pinIndex)
       pin.addEventListener('click', (e) => {
         e.stopPropagation()
-        bus.emit('pin:click', comment)
+        bus.emit('pin:click', main)
       })
       this.el.appendChild(pin)
     })

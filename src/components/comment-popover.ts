@@ -253,8 +253,41 @@ export class CommentPopover {
           </div>
         ` : ''}
         <div class="tr-popover__actions">${actionsHtml}</div>
+        <!-- Replies -->
+        <div class="tr-popover__replies">
+          <div class="tr-popover__replies-list" data-replies></div>
+          <div class="tr-popover__reply-form">
+            <input type="text" class="tr-popover__reply-input" data-reply-input placeholder="답글 입력... (Enter로 전송)">
+          </div>
+        </div>
       </div>
     `
+
+    // Load replies (same position comments, excluding this one)
+    this.loadReplies(comment)
+
+    // Reply submit
+    const replyInput = this.el.querySelector('[data-reply-input]') as HTMLInputElement
+    replyInput.addEventListener('keydown', async (e) => {
+      if (e.key !== 'Enter' || !replyInput.value.trim()) return
+      const content = replyInput.value.trim()
+      const authorName = localStorage.getItem('tera_feedback_author') || 'Guest'
+      replyInput.value = ''
+      replyInput.disabled = true
+      const supabase = getSupabase()
+      await supabase.from('review_comments').insert({
+        project_id: this.projectId,
+        page_url: comment.page_url,
+        x_percent: comment.x_percent,
+        y_percent: comment.y_percent,
+        content,
+        author_name: authorName,
+      })
+      replyInput.disabled = false
+      replyInput.focus()
+      this.loadReplies(comment)
+      bus.emit('pin:created')
+    })
 
     // Status buttons
     this.el.querySelectorAll('[data-status]').forEach(btn => {
@@ -331,6 +364,44 @@ export class CommentPopover {
 
     this.root.appendChild(this.backdrop)
     this.root.appendChild(this.el)
+  }
+
+  private async loadReplies(comment: ReviewComment) {
+    if (!this.el) return
+    const listEl = this.el.querySelector('[data-replies]')
+    if (!listEl) return
+
+    const supabase = getSupabase()
+    const { data: replies } = await supabase
+      .from('review_comments')
+      .select('*')
+      .eq('project_id', this.projectId)
+      .eq('page_url', comment.page_url)
+      .eq('x_percent', comment.x_percent)
+      .eq('y_percent', comment.y_percent)
+      .neq('id', comment.id)
+      .order('created_at', { ascending: true })
+
+    if (!replies || replies.length === 0) {
+      listEl.innerHTML = ''
+      return
+    }
+
+    listEl.innerHTML = replies.map((r: ReviewComment) => {
+      const date = new Date(r.created_at).toLocaleDateString('ko-KR')
+      return `
+        <div class="tr-popover__reply">
+          <span class="tr-popover__reply-avatar">${this.escapeHtml(r.author_name.charAt(0))}</span>
+          <div class="tr-popover__reply-body">
+            <div class="tr-popover__reply-meta">
+              <span class="tr-popover__reply-author">${this.escapeHtml(r.author_name)}</span>
+              <span class="tr-popover__reply-date">${date}</span>
+            </div>
+            <p class="tr-popover__reply-text">${this.escapeHtml(r.content)}</p>
+          </div>
+        </div>
+      `
+    }).join('')
   }
 
   private async uploadImage(file: File): Promise<string | null> {

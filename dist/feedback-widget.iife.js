@@ -490,6 +490,76 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
   margin-top: 8px;
 }
 
+/* ===== Replies ===== */
+.tr-popover__replies {
+  border-top: 1px solid #f1f5f9;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+.tr-popover__replies-list { max-height: 200px; overflow-y: auto; }
+.tr-popover__reply {
+  display: flex;
+  gap: 8px;
+  padding: 8px 0;
+}
+.tr-popover__reply + .tr-popover__reply {
+  border-top: 1px solid #f8fafc;
+}
+.tr-popover__reply-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.tr-popover__reply-body { min-width: 0; flex: 1; }
+.tr-popover__reply-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+.tr-popover__reply-author {
+  font-size: 12px;
+  font-weight: 600;
+  color: #0f172a;
+}
+.tr-popover__reply-date {
+  font-size: 10px;
+  color: #cbd5e1;
+}
+.tr-popover__reply-text {
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.5;
+  word-break: break-word;
+}
+.tr-popover__reply-form { margin-top: 8px; }
+.tr-popover__reply-input {
+  width: 100%;
+  font-size: 12px;
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+  font-family: inherit;
+  background: #f8fafc;
+  color: #0f172a;
+  transition: all 0.15s;
+}
+.tr-popover__reply-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  background: #fff;
+}
+.tr-popover__reply-input::placeholder { color: #94a3b8; }
+
 /* ===== Review Panel (Sidebar) ===== */
 .tr-panel {
   position: fixed;
@@ -825,7 +895,7 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
         완료 표시
       </label>
       <button class="tr-topbar__btn" data-action="panel">피드백 목록</button>
-    `;let t=this.topbar.querySelector(`input`);t?.addEventListener(`change`,()=>{this.showResolved=t.checked,this.render()}),this.topbar.querySelector(`[data-action="panel"]`)?.addEventListener(`click`,e=>{e.stopPropagation(),$.emit(`panel:toggle`)}),this.topbar.querySelector(`[data-action="change-author"]`)?.addEventListener(`click`,e=>{e.stopPropagation(),$.emit(`author:change`)}),this.el.querySelectorAll(`[data-pin]`).forEach(e=>e.remove()),this.el.querySelectorAll(`.tr-pin--new`).forEach(e=>e.remove()),(this.showResolved?this.comments:this.comments.filter(e=>e.status!==`resolved`)).forEach((e,t)=>{let n=document.createElement(`button`);n.setAttribute(`data-pin`,e.id),n.className=`tr-pin ${fi[e.status]}`,n.style.left=`${e.x_percent}%`,n.style.top=`${e.y_percent}%`,n.textContent=String(t+1),n.addEventListener(`click`,t=>{t.stopPropagation(),$.emit(`pin:click`,e)}),this.el.appendChild(n)})}showNewPin(e){this.el.querySelectorAll(`.tr-pin--new`).forEach(e=>e.remove());let t=document.createElement(`div`);t.className=`tr-pin tr-pin--new`,t.style.left=`${e.xPercent}%`,t.style.top=`${e.yPercent}%`,t.innerHTML=`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>`,this.el.appendChild(t)}clearNewPin(){this.el.querySelectorAll(`.tr-pin--new`).forEach(e=>e.remove())}escapeHtml(e){let t=document.createElement(`div`);return t.textContent=e,t.innerHTML}destroy(){this.el.remove(),this.topbar.remove()}};function mi(){return`${window.innerWidth}x${window.innerHeight}`}function hi(){let e=navigator.userAgent;return e.includes(`Firefox`)?`Firefox`:e.includes(`Edg`)?`Edge`:e.includes(`Chrome`)?`Chrome`:e.includes(`Safari`)?`Safari`:`Unknown`}function gi(){let e=navigator.userAgent;return e.includes(`Windows`)?`Windows`:e.includes(`Mac`)?`macOS`:e.includes(`Linux`)?`Linux`:e.includes(`Android`)?`Android`:e.includes(`iPhone`)||e.includes(`iPad`)?`iOS`:`Unknown`}var _i=class{constructor(e,t){this.root=e,this.projectId=t,this.backdrop=null,this.el=null,$.on(`popover:close`,()=>this.close())}showNew(e,t,n,r){this.close();let i=localStorage.getItem(`tera_feedback_author`)||`Guest`,a=null,o=null;this.backdrop=document.createElement(`div`),this.backdrop.className=`tr-popover-backdrop`,this.backdrop.addEventListener(`click`,()=>this.close()),this.el=document.createElement(`div`),this.el.className=`tr-popover`,this.el.style.left=`${Math.min(e+12,window.innerWidth-340)}px`,this.el.style.top=`${Math.min(t-10,window.innerHeight-420)}px`,this.el.innerHTML=`
+    `;let t=this.topbar.querySelector(`input`);t?.addEventListener(`change`,()=>{this.showResolved=t.checked,this.render()}),this.topbar.querySelector(`[data-action="panel"]`)?.addEventListener(`click`,e=>{e.stopPropagation(),$.emit(`panel:toggle`)}),this.topbar.querySelector(`[data-action="change-author"]`)?.addEventListener(`click`,e=>{e.stopPropagation(),$.emit(`author:change`)}),this.el.querySelectorAll(`[data-pin]`).forEach(e=>e.remove()),this.el.querySelectorAll(`.tr-pin--new`).forEach(e=>e.remove());let n=this.showResolved?this.comments:this.comments.filter(e=>e.status!==`resolved`),r=new Map;n.forEach(e=>{let t=`${e.x_percent}_${e.y_percent}`;r.has(t)||r.set(t,[]),r.get(t).push(e)});let i=0;r.forEach(e=>{let t=e[0];i++;let n=document.createElement(`button`);n.setAttribute(`data-pin`,t.id),n.className=`tr-pin ${fi[t.status]}`,n.style.left=`${t.x_percent}%`,n.style.top=`${t.y_percent}%`,n.textContent=e.length>1?String(e.length):String(i),n.addEventListener(`click`,e=>{e.stopPropagation(),$.emit(`pin:click`,t)}),this.el.appendChild(n)})}showNewPin(e){this.el.querySelectorAll(`.tr-pin--new`).forEach(e=>e.remove());let t=document.createElement(`div`);t.className=`tr-pin tr-pin--new`,t.style.left=`${e.xPercent}%`,t.style.top=`${e.yPercent}%`,t.innerHTML=`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>`,this.el.appendChild(t)}clearNewPin(){this.el.querySelectorAll(`.tr-pin--new`).forEach(e=>e.remove())}escapeHtml(e){let t=document.createElement(`div`);return t.textContent=e,t.innerHTML}destroy(){this.el.remove(),this.topbar.remove()}};function mi(){return`${window.innerWidth}x${window.innerHeight}`}function hi(){let e=navigator.userAgent;return e.includes(`Firefox`)?`Firefox`:e.includes(`Edg`)?`Edge`:e.includes(`Chrome`)?`Chrome`:e.includes(`Safari`)?`Safari`:`Unknown`}function gi(){let e=navigator.userAgent;return e.includes(`Windows`)?`Windows`:e.includes(`Mac`)?`macOS`:e.includes(`Linux`)?`Linux`:e.includes(`Android`)?`Android`:e.includes(`iPhone`)||e.includes(`iPad`)?`iOS`:`Unknown`}var _i=class{constructor(e,t){this.root=e,this.projectId=t,this.backdrop=null,this.el=null,$.on(`popover:close`,()=>this.close())}showNew(e,t,n,r){this.close();let i=localStorage.getItem(`tera_feedback_author`)||`Guest`,a=null,o=null;this.backdrop=document.createElement(`div`),this.backdrop.className=`tr-popover-backdrop`,this.backdrop.addEventListener(`click`,()=>this.close()),this.el=document.createElement(`div`),this.el.className=`tr-popover`,this.el.style.left=`${Math.min(e+12,window.innerWidth-340)}px`,this.el.style.top=`${Math.min(t-10,window.innerHeight-420)}px`,this.el.innerHTML=`
       <div class="tr-popover__body">
         <div class="tr-popover__author-row" style="margin-bottom:10px">
           <span class="tr-popover__avatar">${this.escapeHtml(i.charAt(0))}</span>
@@ -888,8 +958,26 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
           </div>
         `:``}
         <div class="tr-popover__actions">${o}</div>
+        <!-- Replies -->
+        <div class="tr-popover__replies">
+          <div class="tr-popover__replies-list" data-replies></div>
+          <div class="tr-popover__reply-form">
+            <input type="text" class="tr-popover__reply-input" data-reply-input placeholder="답글 입력... (Enter로 전송)">
+          </div>
+        </div>
       </div>
-    `,this.el.querySelectorAll(`[data-status]`).forEach(t=>{t.addEventListener(`click`,async()=>{let n=t.dataset.status;await Q().from(`review_comments`).update({status:n,resolved_at:n===`resolved`?new Date().toISOString():null}).eq(`id`,e.id),this.close(),$.emit(`pin:created`)})}),this.el.querySelector(`[data-action="edit"]`)?.addEventListener(`click`,()=>{let e=this.el.querySelector(`.tr-popover__content`),t=this.el.querySelector(`.tr-popover__edit-form`),n=this.el.querySelector(`.tr-popover__actions`);e.style.display=`none`,n.style.display=`none`,t.style.display=`block`,t.querySelector(`textarea`).focus()}),this.el.querySelector(`.tr-popover__edit-cancel`)?.addEventListener(`click`,()=>{let e=this.el.querySelector(`.tr-popover__content`),t=this.el.querySelector(`.tr-popover__edit-form`),n=this.el.querySelector(`.tr-popover__actions`);e.style.display=``,n.style.display=``,t.style.display=`none`}),this.el.querySelector(`.tr-popover__edit-save`)?.addEventListener(`click`,async()=>{let t=this.el.querySelector(`.tr-popover__edit-textarea`).value.trim();t&&(await Q().from(`review_comments`).update({content:t}).eq(`id`,e.id),this.close(),$.emit(`pin:created`))}),this.el.querySelectorAll(`[data-action="open-image"]`).forEach(t=>{t.addEventListener(`click`,()=>window.open(e.image_url,`_blank`))}),this.el.querySelector(`[data-action="download-image"]`)?.addEventListener(`click`,async()=>{try{let t=await(await fetch(e.image_url)).blob(),n=URL.createObjectURL(t),r=document.createElement(`a`);r.href=n,r.download=`feedback-${e.id.slice(0,8)}.${e.image_url.split(`.`).pop()||`png`}`,r.click(),URL.revokeObjectURL(n)}catch{window.open(e.image_url,`_blank`)}}),this.el.addEventListener(`keydown`,e=>{e.key===`Escape`&&this.close()}),this.root.appendChild(this.backdrop),this.root.appendChild(this.el)}async uploadImage(e){let t=e.name.split(`.`).pop()||`png`,n=`${Date.now()}-${Math.random().toString(36).slice(2)}.${t}`,r=Q(),{error:i}=await r.storage.from(`review-images`).upload(n,e);if(i)return console.error(`Image upload failed:`,i),null;let{data:a}=r.storage.from(`review-images`).getPublicUrl(n);return a.publicUrl}close(){this.backdrop?.remove(),this.el?.remove(),this.backdrop=null,this.el=null,$.emit(`popover:closed`)}escapeHtml(e){let t=document.createElement(`div`);return t.textContent=e,t.innerHTML}destroy(){this.close()}},vi=class{constructor(e,t){this.root=e,this.projectId=t,this.tab=`open`,this.allComments=[],this.isOpen=!1,this.channel=null,this.el=document.createElement(`div`),this.el.className=`tr-panel`,e.appendChild(this.el),$.on(`panel:toggle`,()=>{this.isOpen=!this.isOpen,this.isOpen?this.open():this.close()}),$.on(`toggle`,()=>{this.isOpen&&(this.isOpen=!1,this.el.classList.remove(`tr-panel--open`),this.unsubscribe())}),this.render()}async fetchAll(){let{data:e}=await Q().from(`review_comments`).select(`*`).eq(`project_id`,this.projectId).order(`created_at`,{ascending:!1});e&&(this.allComments=e,this.render())}subscribe(){this.unsubscribe(),this.channel=Q().channel(`review_panel_rt`).on(`postgres_changes`,{event:`*`,schema:`public`,table:`review_comments`,filter:`project_id=eq.${this.projectId}`},()=>this.fetchAll()).subscribe()}unsubscribe(){this.channel&&=(Q().removeChannel(this.channel),null)}open(){this.isOpen=!0,this.el.classList.add(`tr-panel--open`),this.fetchAll(),this.subscribe()}close(){this.isOpen=!1,this.el.classList.remove(`tr-panel--open`),this.unsubscribe()}render(){let e=this.allComments.filter(e=>e.status!==`resolved`).length,t=this.allComments.filter(e=>e.status===`resolved`).length,n=this.allComments.filter(e=>this.tab===`open`?e.status!==`resolved`:e.status===`resolved`),r={};n.forEach(e=>{r[e.page_url]||(r[e.page_url]=[]),r[e.page_url].push(e)});let i=e=>({open:{html:`●`,cls:`tr-panel__item-icon--open`},in_progress:{html:`◐`,cls:`tr-panel__item-icon--in_progress`},resolved:{html:`✓`,cls:`tr-panel__item-icon--resolved`}})[e],a=``;if(Object.keys(r).length===0)a=`<div class="tr-panel__empty">${this.tab===`open`?`처리할 피드백이 없습니다`:`완료된 피드백이 없습니다`}</div>`;else for(let[e,t]of Object.entries(r))a+=`
+    `,this.loadReplies(e);let s=this.el.querySelector(`[data-reply-input]`);s.addEventListener(`keydown`,async t=>{if(t.key!==`Enter`||!s.value.trim())return;let n=s.value.trim(),r=localStorage.getItem(`tera_feedback_author`)||`Guest`;s.value=``,s.disabled=!0,await Q().from(`review_comments`).insert({project_id:this.projectId,page_url:e.page_url,x_percent:e.x_percent,y_percent:e.y_percent,content:n,author_name:r}),s.disabled=!1,s.focus(),this.loadReplies(e),$.emit(`pin:created`)}),this.el.querySelectorAll(`[data-status]`).forEach(t=>{t.addEventListener(`click`,async()=>{let n=t.dataset.status;await Q().from(`review_comments`).update({status:n,resolved_at:n===`resolved`?new Date().toISOString():null}).eq(`id`,e.id),this.close(),$.emit(`pin:created`)})}),this.el.querySelector(`[data-action="edit"]`)?.addEventListener(`click`,()=>{let e=this.el.querySelector(`.tr-popover__content`),t=this.el.querySelector(`.tr-popover__edit-form`),n=this.el.querySelector(`.tr-popover__actions`);e.style.display=`none`,n.style.display=`none`,t.style.display=`block`,t.querySelector(`textarea`).focus()}),this.el.querySelector(`.tr-popover__edit-cancel`)?.addEventListener(`click`,()=>{let e=this.el.querySelector(`.tr-popover__content`),t=this.el.querySelector(`.tr-popover__edit-form`),n=this.el.querySelector(`.tr-popover__actions`);e.style.display=``,n.style.display=``,t.style.display=`none`}),this.el.querySelector(`.tr-popover__edit-save`)?.addEventListener(`click`,async()=>{let t=this.el.querySelector(`.tr-popover__edit-textarea`).value.trim();t&&(await Q().from(`review_comments`).update({content:t}).eq(`id`,e.id),this.close(),$.emit(`pin:created`))}),this.el.querySelectorAll(`[data-action="open-image"]`).forEach(t=>{t.addEventListener(`click`,()=>window.open(e.image_url,`_blank`))}),this.el.querySelector(`[data-action="download-image"]`)?.addEventListener(`click`,async()=>{try{let t=await(await fetch(e.image_url)).blob(),n=URL.createObjectURL(t),r=document.createElement(`a`);r.href=n,r.download=`feedback-${e.id.slice(0,8)}.${e.image_url.split(`.`).pop()||`png`}`,r.click(),URL.revokeObjectURL(n)}catch{window.open(e.image_url,`_blank`)}}),this.el.addEventListener(`keydown`,e=>{e.key===`Escape`&&this.close()}),this.root.appendChild(this.backdrop),this.root.appendChild(this.el)}async loadReplies(e){if(!this.el)return;let t=this.el.querySelector(`[data-replies]`);if(!t)return;let{data:n}=await Q().from(`review_comments`).select(`*`).eq(`project_id`,this.projectId).eq(`page_url`,e.page_url).eq(`x_percent`,e.x_percent).eq(`y_percent`,e.y_percent).neq(`id`,e.id).order(`created_at`,{ascending:!0});if(!n||n.length===0){t.innerHTML=``;return}t.innerHTML=n.map(e=>{let t=new Date(e.created_at).toLocaleDateString(`ko-KR`);return`
+        <div class="tr-popover__reply">
+          <span class="tr-popover__reply-avatar">${this.escapeHtml(e.author_name.charAt(0))}</span>
+          <div class="tr-popover__reply-body">
+            <div class="tr-popover__reply-meta">
+              <span class="tr-popover__reply-author">${this.escapeHtml(e.author_name)}</span>
+              <span class="tr-popover__reply-date">${t}</span>
+            </div>
+            <p class="tr-popover__reply-text">${this.escapeHtml(e.content)}</p>
+          </div>
+        </div>
+      `}).join(``)}async uploadImage(e){let t=e.name.split(`.`).pop()||`png`,n=`${Date.now()}-${Math.random().toString(36).slice(2)}.${t}`,r=Q(),{error:i}=await r.storage.from(`review-images`).upload(n,e);if(i)return console.error(`Image upload failed:`,i),null;let{data:a}=r.storage.from(`review-images`).getPublicUrl(n);return a.publicUrl}close(){this.backdrop?.remove(),this.el?.remove(),this.backdrop=null,this.el=null,$.emit(`popover:closed`)}escapeHtml(e){let t=document.createElement(`div`);return t.textContent=e,t.innerHTML}destroy(){this.close()}},vi=class{constructor(e,t){this.root=e,this.projectId=t,this.tab=`open`,this.allComments=[],this.isOpen=!1,this.channel=null,this.el=document.createElement(`div`),this.el.className=`tr-panel`,e.appendChild(this.el),$.on(`panel:toggle`,()=>{this.isOpen=!this.isOpen,this.isOpen?this.open():this.close()}),$.on(`toggle`,()=>{this.isOpen&&(this.isOpen=!1,this.el.classList.remove(`tr-panel--open`),this.unsubscribe())}),this.render()}async fetchAll(){let{data:e}=await Q().from(`review_comments`).select(`*`).eq(`project_id`,this.projectId).order(`created_at`,{ascending:!1});e&&(this.allComments=e,this.render())}subscribe(){this.unsubscribe(),this.channel=Q().channel(`review_panel_rt`).on(`postgres_changes`,{event:`*`,schema:`public`,table:`review_comments`,filter:`project_id=eq.${this.projectId}`},()=>this.fetchAll()).subscribe()}unsubscribe(){this.channel&&=(Q().removeChannel(this.channel),null)}open(){this.isOpen=!0,this.el.classList.add(`tr-panel--open`),this.fetchAll(),this.subscribe()}close(){this.isOpen=!1,this.el.classList.remove(`tr-panel--open`),this.unsubscribe()}render(){let e=this.allComments.filter(e=>e.status!==`resolved`).length,t=this.allComments.filter(e=>e.status===`resolved`).length,n=this.allComments.filter(e=>this.tab===`open`?e.status!==`resolved`:e.status===`resolved`),r={};n.forEach(e=>{r[e.page_url]||(r[e.page_url]=[]),r[e.page_url].push(e)});let i=e=>({open:{html:`●`,cls:`tr-panel__item-icon--open`},in_progress:{html:`◐`,cls:`tr-panel__item-icon--in_progress`},resolved:{html:`✓`,cls:`tr-panel__item-icon--resolved`}})[e],a=``;if(Object.keys(r).length===0)a=`<div class="tr-panel__empty">${this.tab===`open`?`처리할 피드백이 없습니다`:`완료된 피드백이 없습니다`}</div>`;else for(let[e,t]of Object.entries(r))a+=`
           <div class="tr-panel__group-header">
             <span class="tr-panel__group-icon">📄</span>
             <span class="tr-panel__group-label">${this.escapeHtml(e)}</span>
