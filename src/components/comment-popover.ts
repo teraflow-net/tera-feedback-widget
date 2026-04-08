@@ -258,6 +258,7 @@ export class CommentPopover {
           resolved_at: status === 'resolved' ? new Date().toISOString() : null,
         }).eq('id', comment.id)
         this.close()
+        bus.emit('pin:created')
       })
     })
 
@@ -266,6 +267,7 @@ export class CommentPopover {
       const supabase = getSupabase()
       await supabase.from('review_comments').delete().eq('id', comment.id)
       this.close()
+      bus.emit('pin:created')
     })
 
     // Open image in new tab
