@@ -18,6 +18,16 @@ function init() {
     return
   }
 
+  // Check exclude paths
+  const exclude = script.getAttribute('data-exclude')
+  if (exclude) {
+    const currentPath = window.location.pathname
+    const excludePaths = exclude.split(',').map(p => p.trim())
+    if (excludePaths.some(p => currentPath.startsWith(p))) {
+      return
+    }
+  }
+
   const projectId = script.getAttribute('data-project')
   const supabaseUrl = script.getAttribute('data-supabase-url')
   const supabaseKey = script.getAttribute('data-supabase-key')
