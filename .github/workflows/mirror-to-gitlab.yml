@@ -13,5 +13,5 @@ jobs:
           fetch-depth: 0
       - name: Mirror to GitLab
         run: |
-          git remote add gitlab https://root:${{ secrets.GITLAB_TOKEN }}@gitlab.teraflow.net/teraflow/tera-feedback-widget.git
+          git remote add gitlab https://root:${{ secrets.GITLAB_TOKEN }}@gitlab.teraflow.net/wordpress-teraflow/tera-feedback-widget.git
           git push --force gitlab --mirror
